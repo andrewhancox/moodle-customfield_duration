@@ -47,7 +47,8 @@ class data_controller extends \core_customfield\data_controller {
         $config = $field->get('configdata');
         $elementname = $this->get_form_element_name();
 
-        $mform->addElement('duration', $elementname, $this->get_field()->get_formatted_name(), ['defaultunit' => $config['defaultunit'] ?? HOURSECS]);
+        $durationelement = $mform->addElement('duration', $elementname, $this->get_field()->get_formatted_name(), ['defaultunit' => $config['defaultunit'] ?? HOURSECS]);
+        $durationelement->setAttributes(['name' => $elementname]);
 
         $mform->setDefault($elementname, $field->get_configdata_property('default'));
 
