@@ -49,12 +49,31 @@ class data_controller extends \core_customfield\data_controller {
 
         $durationelement = $mform->addElement('duration', $elementname, $this->get_field()->get_formatted_name(), ['defaultunit' => $config['defaultunit'] ?? HOURSECS]);
         $durationelement->setAttributes(['name' => $elementname]);
-
         $mform->setDefault($elementname, $field->get_configdata_property('default'));
 
         if ($field->get_configdata_property('required')) {
-            $mform->addRule($elementname, null, 'required', null, 'client');
+            $mform->addRule($elementname, null, 'required', null, 'server');
         }
+    }
+
+    /**
+     * Called from instance edit form in validation()
+     *
+     * @param array $data
+     * @param array $files
+     * @return array array of errors
+     */
+    public function instance_form_validation(array $data, array $files) : array {
+        $field = $this->get_field();
+        $elementname = $this->get_form_element_name();
+
+        $errors = parent::instance_form_validation($data, $files);
+
+        if ($field->get_configdata_property('required') && isset($data[$elementname]) && empty($data[$elementname])) {
+            $errors[$elementname] = get_string('requiredelement', 'form');
+        }
+
+        return $errors;
     }
 
     /**
