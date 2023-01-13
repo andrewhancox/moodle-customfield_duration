@@ -28,6 +28,9 @@ defined('MOODLE_INTERNAL') || die();
 use customfield_duration\field_controller;
 use customfield_duration\data_controller;
 
+/**
+ * @group opensourcelearning
+ */
 class customfield_duration_plugin_testcase extends advanced_testcase {
 
     /** @var stdClass[]  */
@@ -99,10 +102,11 @@ class customfield_duration_plugin_testcase extends advanced_testcase {
         $submitdata = (array)$this->cfields[1]->to_record();
         $submitdata['configdata'] = $this->cfields[1]->get('configdata');
 
-        \core_customfield\field_config_form::mock_submit($submitdata, []);
+        $submitdata = \core_customfield\field_config_form::mock_ajax_submit($submitdata, []);
         $handler = $this->cfcat->get_handler();
         $form = new \core_customfield\field_config_form(null, null, 'post', '', null, true,
             $submitdata, true);
+        $form->set_data_for_dynamic_submission();
         $this->assertTrue($form->is_validated());
         $data = $form->get_data();
         $handler->save_field_configuration($this->cfields[1], $data);

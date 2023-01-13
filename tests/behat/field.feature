@@ -1,4 +1,4 @@
-@customfield @customfield_duration @opensourcelearning
+@customfield @customfield_duration @opensourcelearning @javascript
 Feature: Managers can manage course custom fields duration
   In order to have additional data on the course
   As a manager
@@ -35,7 +35,6 @@ Feature: Managers can manage course custom fields duration
     Then I should see "Edited field"
     And I log out
 
-  @javascript
   Scenario: Delete a custom course duration field
     When I click on "Add a new custom field" "link"
     And I click on "Duration" "link"
@@ -48,7 +47,6 @@ Feature: Managers can manage course custom fields duration
     Then I should not see "Test field"
     And I log out
 
-  @javascript
   Scenario: A duration field must respect the default units setting
     Given the following "users" exist:
       | username | firstname | lastname  | email                |
@@ -70,7 +68,7 @@ Feature: Managers can manage course custom fields duration
     Then I log in as "teacher1"
     When I am on site homepage
     When I am on "Course 1" course homepage
-    And I navigate to "Edit settings" in current page administration
+    And I navigate to "Settings" in current page administration
     And I expand all fieldsets
     And the field with xpath "//*[@id='id_customfield_testfield_timeunit']" matches value "1"
     And I log out
